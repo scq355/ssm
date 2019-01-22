@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userDao">
+    <resultMap id="user" type="com.sangame.model.User">
+      <result property="id" column="id"/>
+	  <result property="userName" column="user_name"/>
+	  <result property="nickName" column="nick_name"/>
+	  <result property="password" column="password"/>
+	  <result property="phoneNumber" column="phone_number"/>
+	  <result property="email" column="email"/>
+	  <result property="registerTime" column="register_time"/>
+    </resultMap>
+
+    <sql id="sql_insert_column_list">
+	  <trim prefix="" prefixOverrides=",">
+		<if test="entity.id != null">,id</if>
+		<if test="entity.userName != null and entity.userName != ''">,user_name</if>
+		<if test="entity.nickName != null and entity.nickName != ''">,nick_name</if>
+		<if test="entity.password != null and entity.password != ''">,password</if>
+		<if test="entity.phoneNumber != null and entity.phoneNumber != ''">,phone_number</if>
+		<if test="entity.email != null and entity.email != ''">,email</if>
+		<if test="entity.registerTime != null">,register_time</if>
+		<if test="entity.registerTime == null">,register_time</if>
+	  </trim>
+	</sql>
+
+  	<sql id="sql_insert_property_list">
+	  <trim prefix="" prefixOverrides=",">
+		<if test="entity.id != null">,#{entity.id}</if>
+		<if test="entity.userName != null and entity.userName != ''">,#{entity.userName}</if>
+		<if test="entity.nickName != null and entity.nickName != ''">,#{entity.nickName}</if>
+		<if test="entity.password != null and entity.password != ''">,#{entity.password}</if>
+		<if test="entity.phoneNumber != null and entity.phoneNumber != ''">,#{entity.phoneNumber}</if>
+		<if test="entity.email != null and entity.email != ''">,#{entity.email}</if>
+		<if test="entity.registerTime != null">,#{entity.registerTime}</if>
+		<if test="entity.registerTime == null">,NOW()</if>
+	  </trim>
+	</sql>
+
+  <sql id="sql_column_list">
+	id
+	,user_name
+	,nick_name
+	,password
+	,phone_number
+	,email
+	,register_time
+  </sql>
+
+  <sql id="sql_update_set">
+	<trim prefix="SET" prefixOverrides=",">
+	  <if test="entity != null">
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('id')">
+			,id = #{entity.id, jdbcType=INTEGER}
+		  </when>
+		  <otherwise>
+			<if test="entity.id != null">,id = #{entity.id}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('userName')">
+			,user_name = #{entity.userName, jdbcType=VARCHAR}
+		  </when>
+		  <otherwise>
+			<if test="entity.userName != null and entity.userName != ''">,user_name = #{entity.userName}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('nickName')">
+			,nick_name = #{entity.nickName, jdbcType=VARCHAR}
+		  </when>
+		  <otherwise>
+			<if test="entity.nickName != null and entity.nickName != ''">,nick_name = #{entity.nickName}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('password')">
+			,password = #{entity.password, jdbcType=VARCHAR}
+		  </when>
+		  <otherwise>
+			<if test="entity.password != null and entity.password != ''">,password = #{entity.password}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('phoneNumber')">
+			,phone_number = #{entity.phoneNumber, jdbcType=VARCHAR}
+		  </when>
+		  <otherwise>
+			<if test="entity.phoneNumber != null and entity.phoneNumber != ''">,phone_number = #{entity.phoneNumber}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('email')">
+			,email = #{entity.email, jdbcType=VARCHAR}
+		  </when>
+		  <otherwise>
+			<if test="entity.email != null and entity.email != ''">,email = #{entity.email}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('registerTime')">
+			,register_time = #{entity.registerTime, jdbcType=TIMESTAMP}
+		  </when>
+		  <otherwise>
+			<if test="entity.registerTime != null">,register_time = #{entity.registerTime}</if>
+			<if test="entity.registerTime == null">,register_time = NOW()</if>
+		  </otherwise>
+		</choose>
+		<if test="!entity.incrementUpdateMap.isEmpty()">
+		  ,
+		  <foreach collection="entity.incrementUpdateMap" index="key" item="value" separator=",">
+			${key} = ${key} + #{value}
+		  </foreach>
+		</if>
+	  </if>
+	</trim>
+  </sql>
+
+  <sql id="sql_condition">
+	<if test="condition != null">
+	  <if test="condition.id != null">AND id = #{condition.id}</if>
+	  <if test="condition.userName != null">AND user_name = #{condition.userName}</if>
+	  <if test="condition.nickName != null">AND nick_name = #{condition.nickName}</if>
+	  <if test="condition.password != null">AND password = #{condition.password}</if>
+	  <if test="condition.phoneNumber != null">AND phone_number = #{condition.phoneNumber}</if>
+	  <if test="condition.email != null">AND email = #{condition.email}</if>
+	  <if test="condition.registerTime != null">AND register_time = #{condition.registerTime}</if>
+	  <if test="!condition.expressionChainList.empty">
+		AND
+		<foreach collection="condition.expressionChainList" item="expressionChain" separator="OR">
+		  <if test="!expressionChain.expressionList.empty">
+			<foreach collection="expressionChain.expressionList" item="expression" separator="AND">
+			  <choose>
+				<when test="expression.type == 0">
+				  ${expression.column} ${expression.operator}
+				</when>
+				<when test="expression.type == 1">
+				  ${expression.column} ${expression.operator} #{expression.value}
+				</when>
+				<when test="expression.type == 2">
+				  ${expression.column} ${expression.operator} #{expression.value} AND #{expression.value1}
+				</when>
+				<when test="expression.type == 3">
+				  ${expression.column} ${expression.operator}
+				  <foreach collection="expression.values" item="value" open="(" separator="," close=")">
+					#{value}
+				  </foreach>
+				</when>
+			  </choose>
+			</foreach>
+		  </if>
+		</foreach>
+	  </if>
+	</if>
+  </sql>
+
+  <sql id="sql_pagination_start">
+	<![CDATA[
+  ]]>
+  </sql>
+
+  <sql id="sql_pagination_end">
+	<![CDATA[
+    LIMIT #{offset}, #{limit}
+  ]]>
+  </sql>
+
+  <insert id="insert" parameterType="java.util.Map">
+	<selectKey keyProperty="entity.id" resultType="java.lang.Integer" order="AFTER">
+	  SELECT LAST_INSERT_ID()
+	</selectKey>
+	INSERT INTO user (
+	<include refid="sql_insert_column_list" />
+	) VALUES (
+	<include refid="sql_insert_property_list" />
+	)
+  </insert>
+
+  <select id="get" parameterType="java.util.Map" resultMap="user">
+	SELECT
+	<include refid="sql_column_list" />
+	FROM user
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition" />
+	</trim>
+  </select>
+
+  <select id="getById" parameterType="java.util.Map" resultMap="user">
+	SELECT
+	<include refid="sql_column_list" />
+	FROM user
+	WHERE id = #{id}
+  </select>
+
+  <select id="find" parameterType="java.util.Map" resultMap="user">
+	<if test="offset != null">
+	  <include refid="sql_pagination_start" />
+	</if>
+	SELECT
+	<include refid="sql_column_list" />
+	FROM user
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition" />
+	</trim>
+	<if test="orderBy != null">
+	  ORDER BY ${orderBy}
+	</if>
+	<if test="offset != null">
+	  <include refid="sql_pagination_end" />
+	</if>
+  </select>
+
+  <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+	SELECT count(${count_column}) AS count_ FROM user
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition" />
+	</trim>
+  </select>
+
+  <select id="aggregate" parameterType="java.util.Map" resultType="java.util.HashMap">
+	SELECT ${aggregate_sql} FROM user
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition" />
+	</trim>
+  </select>
+
+  <update id="update" parameterType="java.util.Map">
+	UPDATE user
+	<include refid="sql_update_set" />
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition" />
+	</trim>
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map">
+	UPDATE user
+	<include refid="sql_update_set" />
+	WHERE id = #{id}
+  </update>
+
+  <delete id="remove" parameterType="java.util.Map">
+	DELETE FROM user
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition" />
+	</trim>
+  </delete>
+
+  <delete id="removeById" parameterType="java.util.Map">
+	DELETE FROM user
+	WHERE id = #{id}
+  </delete>
+</mapper>

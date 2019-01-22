@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="location" value="classpath:db.properties"/>
+  </bean>
+  <!--C3P0-->
+  <!--<bean id="c3p0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+	  <property name="driverClass" value="com.mysql.jdbc.Driver" />
+	  <property name="jdbcUrl" value="${mysql.datafilter.connection.url}" />
+	  <property name="user" value="${mysql.datafilter.connection.username}" />
+	  <property name="password" value="${mysql.datafilter.connection.password}" />
+
+	  <property name="minPoolSize" value="2" />
+	  <property name="maxPoolSize" value="5" />
+	  <property name="maxIdleTime" value="1800" />
+	  <property name="acquireIncrement" value="2" />
+	  <property name="maxStatements" value="10" />
+	  <property name="initialPoolSize" value="2" />
+	  <property name="idleConnectionTestPeriod" value="1800" />
+	  <property name="acquireRetryAttempts" value="30" />
+	  <property name="breakAfterAcquireFailure" value="false" />
+	  <property name="testConnectionOnCheckout" value="false" />
+  </bean>-->
+
+
+  <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+  <!--<property name="dataSource" ref="druidDataSource" />-->
+  <!--<property name="typeAliasesPackage" value="com.sangame.model" />-->
+  <!--&lt;!&ndash;<property name="configLocation" value="classpath*:mybatis-config.xml"/>&ndash;&gt;-->
+  <!--</bean>-->
+
+  <!-- scan for mappers and let them be autowired -->
+  <!--<bean name="datafilterScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+  <!--<property name="basePackage" value="com.sangame.dao" />-->
+  <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />-->
+  <!--</bean>-->
+
+  <!--<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">-->
+  <!--<constructor-arg ref="sqlSessionFactory" />-->
+  <!--</bean>-->
+
+
+  <context:annotation-config/>
+  <context:component-scan base-package="com.sangame.dao.impl"/>
+  <tx:annotation-driven/>
+
+  <!-- 阿里 druid 数据库连接池 -->
+  <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	<!-- 数据库基本信息配置 -->
+	<property name="url" value="${url}"/>
+	<property name="username" value="${username}"/>
+	<property name="password" value="${password}"/>
+	<property name="driverClassName" value="${driverClassName}"/>
+	<property name="filters" value="${filters}"/>
+	<!-- 最大并发连接数 -->
+	<property name="maxActive" value="${maxActive}"/>
+	<!-- 初始化连接数量 -->
+	<property name="initialSize" value="${initialSize}"/>
+	<!-- 配置获取连接等待超时的时间 -->
+	<property name="maxWait" value="${maxWait}"/>
+	<!-- 最小空闲连接数 -->
+	<property name="minIdle" value="${minIdle}"/>
+	<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}"/>
+	<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}"/>
+	<property name="validationQuery" value="${validationQuery}"/>
+	<property name="testWhileIdle" value="${testWhileIdle}"/>
+	<property name="testOnBorrow" value="${testOnBorrow}"/>
+	<property name="testOnReturn" value="${testOnReturn}"/>
+	<property name="maxOpenPreparedStatements" value="${maxOpenPreparedStatements}"/>
+	<!-- 打开 removeAbandoned 功能 -->
+	<property name="removeAbandoned" value="${removeAbandoned}"/>
+	<!-- 1800 秒，也就是 30 分钟 -->
+	<property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}"/>
+	<!-- 关闭 abanded 连接时输出错误日志 -->
+	<property name="logAbandoned" value="true"/>
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource">
+	  <ref bean="dataSource"/>
+	</property>
+  </bean>
+
+  <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+	<property name="transactionManager">
+	  <ref bean="transactionManager"/>
+	</property>
+  </bean>
+
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="configLocation">
+	  <value>classpath:mybatis-config.xml</value>
+	</property>
+	<property name="mapperLocations">
+	  <value>classpath:com/sangame/dao/UserDao.xml</value>
+	</property>
+	<property name="dataSource">
+	  <ref bean="dataSource"/>
+	</property>
+  </bean>
+
+  <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg ref="sqlSessionFactory"/>
+  </bean>
+
+</beans>

@@ -1,0 +1,92 @@
+2017-05-12 09:50:28  [ RMI TCP Connection(3)-127.0.0.1:0 ] - [ INFO ]  Root WebApplicationContext: initialization started
+2017-05-12 09:50:29  [ RMI TCP Connection(3)-127.0.0.1:392 ] - [ INFO ]  Refreshing Root WebApplicationContext: startup date [Fri May 12 09:50:29 CST 2017]; root of context hierarchy
+2017-05-12 09:50:29  [ RMI TCP Connection(3)-127.0.0.1:688 ] - [ INFO ]  Loading XML bean definitions from class path resource [spring/spring.xml]
+2017-05-12 09:50:30  [ RMI TCP Connection(3)-127.0.0.1:1633 ] - [ INFO ]  Loading XML bean definitions from class path resource [spring/spring-web.xml]
+2017-05-12 09:50:30  [ RMI TCP Connection(3)-127.0.0.1:2072 ] - [ INFO ]  Loading XML bean definitions from class path resource [spring/spring-mybatis.xml]
+2017-05-12 09:50:31  [ RMI TCP Connection(3)-127.0.0.1:2105 ] - [ INFO ]  Loading XML bean definitions from class path resource [spring/spring-quartz.xml]
+2017-05-12 09:50:32  [ RMI TCP Connection(3)-127.0.0.1:3511 ] - [ INFO ]  JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-05-12 09:50:35  [ RMI TCP Connection(3)-127.0.0.1:6522 ] - [ INFO ]  Mapped "{[/hello]}" onto public java.lang.String com.sangame.controller.BaseController.index()
+2017-05-12 09:50:35  [ RMI TCP Connection(3)-127.0.0.1:6526 ] - [ INFO ]  Mapped "{[/free]}" onto public org.springframework.web.servlet.ModelAndView com.sangame.controller.BaseController.freemarker(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-05-12 09:50:35  [ RMI TCP Connection(3)-127.0.0.1:6528 ] - [ INFO ]  Mapped "{[/file/upload]}" onto public com.sangame.common.Result com.sangame.controller.file.FileUploadController.fileupload(org.springframework.web.multipart.commons.CommonsMultipartFile,javax.servlet.http.HttpServletRequest)
+2017-05-12 09:50:35  [ RMI TCP Connection(3)-127.0.0.1:6528 ] - [ INFO ]  Mapped "{[/user/getuser],methods=[POST]}" onto public java.lang.String com.sangame.controller.UserController.getUserById(int)
+2017-05-12 09:50:35  [ RMI TCP Connection(3)-127.0.0.1:6780 ] - [ INFO ]  HV000001: Hibernate Validator 5.2.4.Final
+2017-05-12 09:50:38  [ RMI TCP Connection(3)-127.0.0.1:9194 ] - [ INFO ]  Looking for @ControllerAdvice: Root WebApplicationContext: startup date [Fri May 12 09:50:29 CST 2017]; root of context hierarchy
+2017-05-12 09:50:38  [ RMI TCP Connection(3)-127.0.0.1:9479 ] - [ INFO ]  Looking for @ControllerAdvice: Root WebApplicationContext: startup date [Fri May 12 09:50:29 CST 2017]; root of context hierarchy
+2017-05-12 09:50:39  [ RMI TCP Connection(3)-127.0.0.1:10373 ] - [ INFO ]  ClassTemplateLoader for Spring macros added to FreeMarker configuration
+2017-05-12 09:50:39  [ RMI TCP Connection(3)-127.0.0.1:10500 ] - [ INFO ]  MLog clients using log4j logging.
+2017-05-12 09:50:39  [ RMI TCP Connection(3)-127.0.0.1:10734 ] - [ INFO ]  Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11208 ] - [ INFO ]  Using default implementation for ThreadExecutor
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11294 ] - [ INFO ]  Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11295 ] - [ INFO ]  Quartz Scheduler v.2.2.2 created.
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11299 ] - [ INFO ]  RAMJobStore initialized.
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11303 ] - [ INFO ]  Scheduler meta-data: Quartz Scheduler (v2.2.2) 'scheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11304 ] - [ INFO ]  Quartz scheduler 'scheduler' initialized from an externally provided properties instance.
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11304 ] - [ INFO ]  Quartz scheduler version: 2.2.2
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11315 ] - [ INFO ]  JobFactory set to: org.springframework.scheduling.quartz.AdaptableJobFactory@5204f483
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11483 ] - [ INFO ]  Starting beans in phase 2147483647
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11484 ] - [ INFO ]  Starting Quartz Scheduler now
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11484 ] - [ INFO ]  Scheduler scheduler_$_NON_CLUSTERED started.
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:11550 ] - [ INFO ]  Root WebApplicationContext: initialization completed in 11533 ms
+2017-05-12 09:50:40  [ RMI TCP Connection(3)-127.0.0.1:12043 ] - [ INFO ]  FrameworkServlet 'SpringMVC': initialization started
+2017-05-12 09:50:41  [ RMI TCP Connection(3)-127.0.0.1:12103 ] - [ INFO ]  Refreshing WebApplicationContext for namespace 'SpringMVC-servlet': startup date [Fri May 12 09:50:41 CST 2017]; parent: Root WebApplicationContext
+2017-05-12 09:50:41  [ RMI TCP Connection(3)-127.0.0.1:12104 ] - [ INFO ]  Loading XML bean definitions from class path resource [spring/spring-web.xml]
+2017-05-12 09:50:41  [ RMI TCP Connection(3)-127.0.0.1:12300 ] - [ INFO ]  JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-05-12 09:50:41  [ RMI TCP Connection(3)-127.0.0.1:12640 ] - [ INFO ]  Mapped "{[/hello]}" onto public java.lang.String com.sangame.controller.BaseController.index()
+2017-05-12 09:50:41  [ RMI TCP Connection(3)-127.0.0.1:12640 ] - [ INFO ]  Mapped "{[/free]}" onto public org.springframework.web.servlet.ModelAndView com.sangame.controller.BaseController.freemarker(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-05-12 09:50:41  [ RMI TCP Connection(3)-127.0.0.1:12641 ] - [ INFO ]  Mapped "{[/file/upload]}" onto public com.sangame.common.Result com.sangame.controller.file.FileUploadController.fileupload(org.springframework.web.multipart.commons.CommonsMultipartFile,javax.servlet.http.HttpServletRequest)
+2017-05-12 09:50:41  [ RMI TCP Connection(3)-127.0.0.1:12643 ] - [ INFO ]  Mapped "{[/user/getuser],methods=[POST]}" onto public java.lang.String com.sangame.controller.UserController.getUserById(int)
+2017-05-12 09:50:41  [ scheduler_Worker-1:12921 ] - [ INFO ]  {dataSource-1} inited
+2017-05-12 09:50:41  [ RMI TCP Connection(3)-127.0.0.1:12941 ] - [ INFO ]  Looking for @ControllerAdvice: WebApplicationContext for namespace 'SpringMVC-servlet': startup date [Fri May 12 09:50:41 CST 2017]; parent: Root WebApplicationContext
+2017-05-12 09:50:41  [ RMI TCP Connection(3)-127.0.0.1:13052 ] - [ INFO ]  Looking for @ControllerAdvice: WebApplicationContext for namespace 'SpringMVC-servlet': startup date [Fri May 12 09:50:41 CST 2017]; parent: Root WebApplicationContext
+2017-05-12 09:50:42  [ scheduler_Worker-1:13098 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:50:42  [ scheduler_Worker-2:13100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:50:42  [ RMI TCP Connection(3)-127.0.0.1:13203 ] - [ INFO ]  ClassTemplateLoader for Spring macros added to FreeMarker configuration
+2017-05-12 09:50:42  [ RMI TCP Connection(3)-127.0.0.1:13353 ] - [ INFO ]  FrameworkServlet 'SpringMVC': initialization completed in 1301 ms
+2017-05-12 09:50:45  [ scheduler_Worker-3:16107 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:50:48  [ scheduler_Worker-4:19100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:50:51  [ scheduler_Worker-5:22100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:50:54  [ scheduler_Worker-6:25100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:50:57  [ scheduler_Worker-7:28101 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:00  [ scheduler_Worker-8:31100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:03  [ scheduler_Worker-9:34101 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:06  [ scheduler_Worker-10:37100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:09  [ scheduler_Worker-1:40100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:12  [ scheduler_Worker-2:43101 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:15  [ scheduler_Worker-3:46103 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:18  [ scheduler_Worker-4:49100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:21  [ scheduler_Worker-5:52100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:24  [ scheduler_Worker-6:55102 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:27  [ scheduler_Worker-7:58100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:30  [ scheduler_Worker-8:61099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:33  [ scheduler_Worker-9:64099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:36  [ scheduler_Worker-10:67100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:39  [ scheduler_Worker-1:70100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:42  [ scheduler_Worker-2:73100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:45  [ scheduler_Worker-3:76100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:48  [ scheduler_Worker-4:79100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:51  [ scheduler_Worker-5:82100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:54  [ scheduler_Worker-6:85099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:51:57  [ scheduler_Worker-7:88099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:00  [ scheduler_Worker-8:91099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:03  [ scheduler_Worker-9:94099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:06  [ scheduler_Worker-10:97100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:09  [ scheduler_Worker-1:100100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:12  [ scheduler_Worker-2:103099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:15  [ scheduler_Worker-3:106099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:18  [ scheduler_Worker-4:109099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:21  [ scheduler_Worker-5:112100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:24  [ scheduler_Worker-6:115100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:27  [ scheduler_Worker-7:118099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:30  [ scheduler_Worker-8:121099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:33  [ scheduler_Worker-9:124099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:36  [ scheduler_Worker-10:127099 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:39  [ scheduler_Worker-1:130100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:42  [ scheduler_Worker-2:133100 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}
+2017-05-12 09:52:45  [ scheduler_Worker-3:136101 ] - [ INFO ]  log info : User{id=1, userName='孙常青', nickName='scq', password='scq35545454', phoneNumber='null', email='nwpuscq355@163.com', registerTime=Wed May 03 00:00:00 CST 2017}

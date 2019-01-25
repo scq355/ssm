@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns="http://java.sun.com/xml/ns/javaee"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+		 version="3.0">
+
+  <listener>
+	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <!--
+	REQUEST：当用户直接访问页面时，Web容器将会调用过滤器。如果目标资源是通过RequestDispatcher的include()或forward()方法访问时，那么该过滤器就不会被调用。
+	INCLUDE：如果目标资源是通过RequestDispatcher的include()方法访问时，那么该过滤器将被调用。除此之外，该过滤器不会被调用。
+	FORWARD：如果目标资源是通过RequestDispatcher的forward()方法访问时，那么该过滤器将被调用，除此之外，该过滤器不会被调用。
+	ERROR：如果目标资源是通过声明式异常处理机制调用时，那么该过滤器将被调用。除此之外，过滤器不会被调用。
+  -->
+  <!--字符编码过滤器-->
+  <filter>
+	<filter-name>encodingFilter</filter-name>
+	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	<async-supported>true</async-supported>
+	<init-param>
+	  <param-name>encoding</param-name>
+	  <param-value>UTF-8</param-value>
+	</init-param>
+	<init-param>
+	  <param-name>forceEncoding</param-name>
+	  <param-value>true</param-value>
+	</init-param>
+  </filter>
+  <filter-mapping>
+	<filter-name>encodingFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!--访问控制过滤器-->
+  <!--<filter>-->
+	<!--<filter-name>passportFilter</filter-name>-->
+	<!--<filter-class>com.qs.p2p.filter.PassportFilter</filter-class>-->
+  <!--</filter>-->
+  <!--<filter-mapping>-->
+	<!--<filter-name>passportFilter</filter-name>-->
+	<!--<url-pattern>/*</url-pattern>-->
+	<!--<dispatcher>REQUEST</dispatcher>-->
+	<!--<dispatcher>FORWARD</dispatcher>-->
+  <!--</filter-mapping>-->
+
+  <!--<filter>-->
+	<!--<filter-name>sessionFilter</filter-name>-->
+	<!--<filter-class>com.qs.p2p.filter.SessionFilter</filter-class>-->
+	<!--<init-param>-->
+	  <!--<param-name>loginStrings</param-name>&lt;!&ndash; 对登录页面不进行过滤 &ndash;&gt;-->
+	  <!--<param-value>/login/,com.qs.p2p.servlet.ImageServlet</param-value>-->
+	<!--</init-param>-->
+	<!--<init-param>-->
+	  <!--<param-name>includeStrings</param-name>&lt;!&ndash; 只对指定过滤参数后缀进行过滤 &ndash;&gt;-->
+	  <!--<param-value>/*</param-value>-->
+	<!--</init-param>-->
+	<!--<init-param>-->
+	  <!--<param-name>redirectPath</param-name>&lt;!&ndash; 未通过跳转到登录界面 &ndash;&gt;-->
+	  <!--<param-value>/login/</param-value>-->
+	<!--</init-param>-->
+	<!--<init-param>-->
+	  <!--<param-name>disableFilter</param-name>&lt;!&ndash; Y:过滤无效 &ndash;&gt;-->
+	  <!--<param-value>Y</param-value>-->
+	<!--</init-param>-->
+  <!--</filter>-->
+  <!--<filter-mapping>-->
+	<!--<filter-name>sessionFilter</filter-name>-->
+	<!--<url-pattern>/*</url-pattern>-->
+  <!--</filter-mapping>-->
+
+  <context-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>classpath:spring/spring.xml</param-value>
+  </context-param>
+
+  <servlet>
+	<servlet-name>imageServlet</servlet-name>
+	<servlet-class>com.qs.p2p.servlet.ImageServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+	<servlet-name>imageServlet</servlet-name>
+	<url-pattern>/imageServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+	<servlet-name>spring-mvc</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	<init-param>
+	  <param-name>contextConfigLocation</param-name>
+	  <param-value>classpath:spring/spring-web.xml</param-value>
+	</init-param>
+	<load-on-startup>1</load-on-startup>
+	<async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+	<servlet-name>spring-mvc</servlet-name>
+	<url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <session-config>
+	<session-timeout>60</session-timeout>
+  </session-config>
+
+  <error-page>
+	<error-code>404</error-code>
+	<location>/WEB-INF/view/error-404.jsp</location>
+  </error-page>
+  <error-page>
+	<exception-type>java.lang.Exception</exception-type>
+	<location>/WEB-INF/view/error-500.jsp</location>
+  </error-page>
+
+</web-app>

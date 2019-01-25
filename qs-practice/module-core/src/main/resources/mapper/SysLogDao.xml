@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sysLogDao">
+  <resultMap id="sysLog" type="com.qs.p2p.model.SysLog">
+	<result property="id" column="id"/>
+	<result property="moduleType" column="module_type"/>
+	<result property="name" column="name"/>
+	<result property="uri" column="uri"/>
+	<result property="msg" column="msg"/>
+	<result property="adminId" column="admin_id"/>
+	<result property="ip" column="ip"/>
+	<result property="createdAt" column="created_at"/>
+  </resultMap>
+
+  <sql id="sql_insert_column_list">
+	<trim prefix="" prefixOverrides=",">
+	  <if test="entity.id != null">,id</if>
+	  <if test="entity.moduleType != null">,module_type</if>
+	  <if test="entity.name != null">,name</if>
+	  <if test="entity.uri != null">,uri</if>
+	  <if test="entity.msg != null">,msg</if>
+	  <if test="entity.adminId != null">,admin_id</if>
+	  <if test="entity.ip != null">,ip</if>
+	  <if test="entity.createdAt != null">,created_at</if>
+	</trim>
+  </sql>
+
+  <sql id="sql_insert_property_list">
+	<trim prefix="" prefixOverrides=",">
+	  <if test="entity.id != null">,#{entity.id}</if>
+	  <if test="entity.moduleType != null">,#{entity.moduleType}</if>
+	  <if test="entity.name != null">,#{entity.name}</if>
+	  <if test="entity.uri != null">,#{entity.uri}</if>
+	  <if test="entity.msg != null">,#{entity.msg}</if>
+	  <if test="entity.adminId != null">,#{entity.adminId}</if>
+	  <if test="entity.ip != null">,#{entity.ip}</if>
+	  <if test="entity.createdAt != null">,#{entity.createdAt}</if>
+	</trim>
+  </sql>
+
+  <sql id="sql_column_list">
+	id
+	,module_type
+	,name
+	,uri
+	,msg
+	,admin_id
+	,ip
+	,created_at
+  </sql>
+
+  <sql id="sql_update_set">
+	<trim prefix="SET" prefixOverrides=",">
+	  <if test="entity != null">
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('id')">,id = #{entity.id, jdbcType=INT}</when>
+		  <otherwise>
+			<if test="entity.id != null and entity.id != ''">,id=#{entity.id}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('moduleType')">,moduleType = #{entity.module_type, jdbcType=TINYINT}</when>
+		  <otherwise>
+			<if test="entity.module_type != null and entity.module_type != ''">,moduleType= #{entity.moduleType}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('name')">,name = #{entity.name, jdbcType=VARCHAR}</when>
+		  <otherwise>
+			<if test="entity.name != null and entity.name != ''">,name= #{entity.name}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('uri')">,uri = #{entity.uri, jdbcType=VARCHAR}</when>
+		  <otherwise>
+			<if test="entity.uri != null and entity.uri != ''">,uri=#{entity.uri}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('msg')">,msg = #{entity.msg, jdbcType=VARCHAR}</when>
+		  <otherwise>
+			<if test="entity.msg != null and entity.msg != ''">,msg = #{entity.msg}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('adminId')">,adminId = #{entity.admin_id, jdbcType=INT}
+		  </when>
+		  <otherwise>
+			<if test="entity.admin_id != null and entity.admin_id != ''">,adminId= #{entity.adminId}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('ip')">,ip = #{entity.ip, jdbcType=VARCHAR}</when>
+		  <otherwise>
+			<if test="entity.ip != null and entity.ip != ''">,ip= #{entity.ip}</if>
+		  </otherwise>
+		</choose>
+		<choose>
+		  <when test="entity.forceUpdateProperties.contains('createdAt')">,createdAt =
+			#{entity.created_at, jdbcType=DATETIME}
+		  </when>
+		  <otherwise>
+			<if test="entity.created_at != null and entity.created_at != ''">,createdAt = #{entity.createdAt}</if>
+		  </otherwise>
+		</choose>
+		<if test="!entity.incrementUpdateMap.isEmpty()">
+		  ,
+		  <foreach collection="entity.incrementUpdateMap" index="key" item="value" separator=",">
+			${key} = ${key} + #{value}
+		  </foreach>
+		</if>
+	  </if>
+	</trim>
+  </sql>
+
+  <sql id="sql_condition">
+	<if test="condition != null">
+	  <if test="condition.id != null">AND id = #{condition.id}</if>
+	  <if test="condition.moduleType != null">AND module_type = #{condition.moduleType}</if>
+	  <if test="condition.name != null">AND name = #{condition.name}</if>
+	  <if test="condition.uri != null">AND uri = #{condition.uri}</if>
+	  <if test="condition.msg != null">AND msg = #{condition.msg}</if>
+	  <if test="condition.adminId != null">AND admin_id = #{condition.adminId}</if>
+	  <if test="condition.ip != null">AND ip = #{condition.ip}</if>
+	  <if test="condition.createdAt != null">AND created_at = #{condition.createdAt}</if>
+	  <if test="!condition.expressionChainList.empty">
+		AND
+		<foreach collection="condition.expressionChainList" item="expressionChain" separator="OR">
+		  <if test="!expressionChain.expressionList.empty">
+			<foreach collection="expressionChain.expressionList" item="expression" separator="AND">
+			  <choose>
+				<when test="expression.type == 0">${expression.column} ${expression.operator}</when>
+				<when test="expression.type == 1">${expression.column} ${expression.operator} #{expression.value}</when>
+				<when test="expression.type == 2">${expression.column} ${expression.operator} #{expression.value} AND
+				  #{expression.value1}
+				</when>
+				<when test="expression.type == 3">${expression.column} ${expression.operator}
+				  <foreach collection="expression.values" item="value" open="(" separator="," close=")">
+					#{value}
+				  </foreach>
+				</when>
+			  </choose>
+			</foreach>
+		  </if>
+		</foreach>
+	  </if>
+	</if>
+  </sql>
+
+  <sql id="sql_pagination_start">
+	<![CDATA[
+  ]]>
+  </sql>
+
+  <sql id="sql_pagination_end">
+	<![CDATA[
+    LIMIT #{offset}, #{limit}
+  ]]>
+  </sql>
+
+  <insert id="insert" parameterType="java.util.Map">
+	<selectKey keyProperty="entity.id" resultType="java.lang.Integer" order="AFTER">
+	  SELECT LAST_INSERT_ID()
+	</selectKey>
+	INSERT INTO ot_sys_log (
+	<include refid="sql_insert_column_list"/>
+	) VALUES (
+	<include refid="sql_insert_property_list"/>
+	)
+  </insert>
+
+  <select id="get" parameterType="java.util.Map" resultMap="sysLog">
+	SELECT
+	<include refid="sql_column_list"/>
+	FROM ot_sys_log
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition"/>
+	</trim>
+  </select>
+
+  <select id="getById" parameterType="java.util.Map" resultMap="sysLog">
+	SELECT
+	<include refid="sql_column_list"/>
+	FROM ot_sys_log
+	WHERE id = #{id}
+  </select>
+
+  <select id="find" parameterType="java.util.Map" resultMap="sysLog">
+	<if test="offset != null">
+	  <include refid="sql_pagination_start"/>
+	</if>
+	SELECT
+	<include refid="sql_column_list"/>
+	FROM ot_sys_log
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition"/>
+	</trim>
+	<if test="orderBy != null">
+	  ORDER BY ${orderBy}
+	</if>
+	<if test="offset != null">
+	  <include refid="sql_pagination_end"/>
+	</if>
+  </select>
+
+  <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+	SELECT count(${count_column}) AS count_ FROM ot_sys_log
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition"/>
+	</trim>
+  </select>
+
+  <select id="aggregate" parameterType="java.util.Map" resultType="java.util.HashMap">
+	SELECT ${aggregate_sql} FROM ot_sys_log
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition"/>
+	</trim>
+  </select>
+
+  <update id="update" parameterType="java.util.Map">
+	UPDATE ot_sys_log
+	<include refid="sql_update_set"/>
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition"/>
+	</trim>
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map">
+	UPDATE ot_sys_log
+	<include refid="sql_update_set"/>
+	WHERE id = #{id}
+  </update>
+
+  <delete id="remove" parameterType="java.util.Map">
+	DELETE FROM ot_sys_log
+	<trim prefix="WHERE" prefixOverrides="AND">
+	  <include refid="sql_condition"/>
+	</trim>
+  </delete>
+
+  <delete id="removeById" parameterType="java.util.Map">
+	DELETE FROM ot_sys_log
+	WHERE id = #{id}
+  </delete>
+</mapper>

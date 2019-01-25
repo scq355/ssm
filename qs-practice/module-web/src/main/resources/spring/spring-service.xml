@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+  <context:annotation-config />
+  <context:component-scan base-package="com.qs.p2p"/>
+
+	<bean id="EmailNotifier" class="com.qs.p2p.event.EmailNotifier"/>
+
+  <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	<property name="triggers">
+	  <list>
+		<ref bean="UserAddJobTrigger"/>
+	  </list>
+	</property>
+	<property name="quartzProperties">
+	  <props>
+		<prop key="org.quartz.threadPool.threadCount">22</prop>
+	  </props>
+	</property>
+  </bean>
+
+  <bean id="UserAddJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	<property name="cronExpression">
+	  <value>0/5 * * * * ?</value>
+	</property>
+	<property name="jobDetail">
+	  <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="UserAddJob" />
+		<property name="targetMethod" value="run" />
+		<property name="concurrent" value="false" />
+	  </bean>
+	</property>
+  </bean>
+
+
+	<bean id="greetingProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="interfaces" value="com.qs.p2p.aop.Greeting"/>
+		<property name="target" value="GreetingImpl"/>
+		<property name="interceptorNames" value="AroundAdvice"/>
+	</bean>
+
+
+</beans>

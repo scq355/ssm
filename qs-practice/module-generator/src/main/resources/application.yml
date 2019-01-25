@@ -1,0 +1,29 @@
+# Tomcat
+server:
+    tomcat:
+        max-threads: 10
+        min-spare-threads: 10
+    port: 4560
+
+# mysql
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+#        url: jdbc:mysql://localhost:3306/system_practice?useUnicode=true&characterEncoding=UTF-8
+#        username: root
+#        password:
+        url: jdbc:mysql://101.37.255.70:3306/p2p?useUnicode=true&characterEncoding=UTF-8
+        username: p2p
+        password: Qsw20170824!
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+    resources:
+            static-locations: classpath:/static/,classpath:/views/
+
+# Mybatis配置
+mybatis:
+    mapperLocations: classpath:mapper/**/*.xml
+    configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

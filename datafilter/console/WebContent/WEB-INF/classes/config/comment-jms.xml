@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!--这个是 commentRequest(其他项目发送数据到此队列) -->
+    <bean id="commentRequestQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>CommentRequestQueue</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- comment 死信队列配置 -->
+    <bean id="DLQCommentRequestQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>DLQ.CommentRequestQueue</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- 消息监听器 -->
+    <bean id="commentRequestConsumerListener" class="com.sangame.datafilter.activeMq.comment.CommentRequestConsumer"/>
+    <bean id="commentRequestConsumerDLQListener" class="com.sangame.datafilter.activeMq.comment.CommentRequestConsumerDLQ"/>
+
+    <!-- 消息监听容器 -->
+    <bean id="commentJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="commentRequestQueueDestination" />
+        <property name="messageListener" ref="commentRequestConsumerListener" />
+        <!--这里注意:如果不开启事务，消息在异常的情况下是不会重试的-->
+        <property name="sessionTransacted" value="true"/>
+        <property name="concurrentConsumers" value="1"/>
+    </bean>
+
+
+
+    <bean id="commentJmsDLQContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="DLQCommentRequestQueueDestination" />
+        <property name="messageListener" ref="commentRequestConsumerDLQListener" />
+        <!--这里注意:如果不开启事务，消息在异常的情况下是不会重试的-->
+        <property name="sessionTransacted" value="true"/>
+        <property name="concurrentConsumers" value="1"/>
+    </bean>
+
+    <!--这个是队列目的地，点对点的-->
+    <bean id="commentResponseQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>CommentResponseQueue</value>
+        </constructor-arg>
+    </bean>
+
+</beans>

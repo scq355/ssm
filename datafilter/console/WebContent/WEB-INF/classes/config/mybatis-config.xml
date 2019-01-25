@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd ">
+
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:db.properties" />
+	</bean>
+
+	<bean id="filterDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="${mysql.datafilter.connection.url}" />
+		<property name="user" value="${mysql.datafilter.connection.username}" />
+		<property name="password" value="${mysql.datafilter.connection.password}" />
+
+		<property name="minPoolSize" value="2" />
+		<property name="maxPoolSize" value="5" />
+		<property name="maxIdleTime" value="1800" />
+		<property name="acquireIncrement" value="2" />
+		<property name="maxStatements" value="10" />
+		<property name="initialPoolSize" value="2" />
+		<property name="idleConnectionTestPeriod" value="1800" />
+		<property name="acquireRetryAttempts" value="30" />
+		<property name="breakAfterAcquireFailure" value="false" />
+		<property name="testConnectionOnCheckout" value="false" />
+	</bean>
+
+	<bean id="datafilterSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="filterDataSource" />
+		<!--<property name="mapperLocations" value="classpath:com/sangame/datafilter/common/persistence/mapper/*Mapper.xml" />-->
+		<property name="typeAliasesPackage" value="com.sangame.datafilter.common.persistence.model.*" />
+		<property name="configLocation" value="classpath:config/mybatis.xml"/>
+	</bean>
+
+	<!-- scan for mappers and let them be autowired -->
+	<bean name="datafilterScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.sangame.datafilter.common.persistence.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="datafilterSessionFactory" />
+	</bean>
+</beans>
+

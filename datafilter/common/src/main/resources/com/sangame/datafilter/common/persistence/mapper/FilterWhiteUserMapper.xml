@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sangame.datafilter.common.persistence.mapper.FilterWhiteUserMapper">
+
+	<resultMap type="com.sangame.datafilter.common.persistence.model.FilterWhiteUser" id="FilterWhiteUserBaseMapper">
+		<id property="id" column="id" />
+		<id property="userId" column="user_id" />
+		<id property="userName" column="user_name" />
+		<id property="ip" column="ip" />
+		<id property="whiteReason" column="white_reason" />
+		<id property="whiteType" column="white_type" />
+		<id property="deleteFlag" column="delete_flag" />
+		<id property="creator" column="creator" />
+		<id property="modifier" column="modifier" />
+		<id property="createdAt" column="created_at" />
+		<id property="updatedAt" column="updated_at" />
+	</resultMap>
+
+	<insert id="insert">
+		<selectKey resultType="long" keyProperty="id">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into filter_white_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="ip != null">
+				ip,
+			</if>
+			<if test="whiteReason != null">
+				white_reason,
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag,
+			</if>
+			<if test="whiteType != null">
+				white_type,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="createdAt != null">
+				created_at,
+			</if>
+			<if test="updatedAt != null">
+				updated_at,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId},
+			</if>
+			<if test="userName != null">
+				#{userName},
+			</if>
+			<if test="ip != null">
+				#{ip},
+			</if>
+			<if test="whiteReason != null">
+				#{whiteReason},
+			</if>
+			<if test="deleteFlag != null">
+				#{deleteFlag},
+			</if>
+			<if test="whiteType != null">
+				#{whiteType},
+			</if>
+			<if test="creator != null">
+				#{creator},
+			</if>
+			<if test="modifier != null">
+				#{modifier},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+		</trim>
+	</insert>
+
+	<!--批量新增白名单   这个SQL有问题，没有设置创建人、创建时间等字段  但这个SQL目前没有调用到，暂时先不修改-->
+	<!-- <insert id="batchInsertUser" parameterType="java.util.List">
+		INSERT INTO filter_white_user (user_id, user_name, ip, white_type, white_reason, delete_flag)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.userId}, #{item.userName}, #{item.ip}, #{item.whiteType}, #{item.whiteReason}, #{item.deleteFlag})
+		</foreach>
+	</insert> -->
+
+	<update id="update">
+		UPDATE filter_white_user
+		<set>
+			<if test="userId != null">
+				user_id = #{userId},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName},
+			</if>
+			<if test="ip != null">
+				ip = #{ip},
+			</if>
+			<if test="whiteReason != null">
+				white_reason = #{whiteReason},
+			</if>
+			<if test="deleteFlag != null">
+				delete_flag = #{deleteFlag},
+			</if>
+			<if test="whiteType != null">
+				white_type = #{whiteType},
+			</if>
+			<if test="creator != null">
+				creator = #{creator},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier},
+			</if>
+			<if test="createdAt != null">
+				created_at = #{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				updated_at = #{updatedAt},
+			</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+
+	<delete id="delete">
+		delete from filter_white_user where id=#{id}
+	</delete>
+
+	<!-- 批量删除白名单用户id -->
+	<delete id="batchDeleteUserById" parameterType="java.util.List">
+		delete from filter_white_user where id in
+		<foreach collection="list" index="index" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 批量删除白名单用户userId -->
+	<delete id="batchDeleteUserByUserId" parameterType="java.util.List">
+		delete from filter_white_user where user_id in
+		<foreach collection="list" index="index" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<!-- 批量删除白名单用户IP-->
+	<delete id="batchDeleteUserByIP" parameterType="java.util.List">
+		delete from filter_white_user where ip in
+		<foreach collection="list" index="index" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="getById" resultMap="FilterWhiteUserBaseMapper">
+		SELECT * FROM filter_white_user WHERE id=#{id}
+	</select>
+
+	<select id="countByParm" resultType="integer">
+		select count(*) from filter_white_user  where 1=1
+		<if test="parm.userId != null">
+			and user_id = #{parm.userId}
+		</if>
+		<if test="parm.userName != null">
+			AND user_name = #{parm.userName}
+		</if>
+		<if test="parm.userNameLike != null">
+			AND user_name LIKE concat('%',#{parm.userNameLike},'%')
+		</if>
+		<if test="parm.whiteType != null">
+			and white_type = #{parm.whiteType}
+		</if>
+		<if test="parm.whiteReason != null">
+			and white_reason = #{parm.whiteReason}
+		</if>
+		<if test="parm.deleteFlag != null">
+			and delete_flag = #{parm.deleteFlag}
+		</if>
+		<if test="parm.creator != null">
+			and creator = #{parm.creator}
+		</if>
+		<if test="parm.ip != null">
+			AND ip LIKE concat('%',#{parm.ip},'%')
+		</if>
+		<if test="parm.modifier != null">
+			and modifier = #{parm.modifier}
+		</if>
+		<if test="parm.createdAt != null">
+			and created_at = #{parm.createdAt}
+		</if>
+		<if test="parm.updatedAt != null">
+			and updated_at = #{parm.updatedAt}
+		</if>
+	</select>
+
+	<select id="getListByParm" resultMap="FilterWhiteUserBaseMapper">
+		select * from filter_white_user where 1=1
+		<if test="parm.userId != null">
+			and user_id = #{parm.userId}
+		</if>
+		<if test="parm.userName != null">
+			AND user_name = #{parm.userName}
+		</if>
+		<if test="parm.userNameLike != null">
+			AND user_name LIKE concat('%',#{parm.userNameLike},'%')
+		</if>
+		<if test="parm.whiteType != null">
+			and white_type = #{parm.whiteType}
+		</if>
+		<if test="parm.whiteReason != null">
+			and white_reason = #{parm.whiteReason}
+		</if>
+		<if test="parm.deleteFlag != null">
+			and delete_flag = #{parm.deleteFlag}
+		</if>
+		<if test="parm.creator != null">
+			and creator = #{parm.creator}
+		</if>
+		<if test="parm.ip != null">
+			AND ip LIKE concat('%',#{parm.ip},'%')
+		</if>
+		<if test="parm.modifier != null">
+			and modifier = #{parm.modifier}
+		</if>
+		<if test="parm.createdAt != null">
+			and created_at = #{parm.createdAt}
+		</if>
+		<if test="parm.updatedAt != null">
+			and updated_at = #{parm.updatedAt}
+		</if>
+		<if test="page!=null and page.pageSize>0">
+			limit #{page.startRow},#{page.pageSize}
+		</if>
+		<if test="page!=null and page.orderBy != null">
+			order by #{page.orderBy}
+		</if>
+	</select>
+
+<select id="getMapListByParm" parameterType="HashMap" resultType="HashMap">
+	select * from filter_white_user where 1=1 
+</select>
+
+<select id="isWhiteUserByUserIdOrIp" resultType="INTEGER">
+	SELECT COUNT(*) FROM filter_white_user
+	<where>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="ip != null">
+			AND ip = #{ip}
+		</if>
+	</where>
+</select>
+
+
+</mapper>

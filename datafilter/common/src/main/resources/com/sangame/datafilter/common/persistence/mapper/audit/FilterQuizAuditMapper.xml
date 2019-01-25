@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.sangame.datafilter.common.persistence.mapper.audit.FilterQuizAuditMapper">
+
+	<resultMap type="com.sangame.datafilter.common.persistence.model.audit.FilterQuizAudit" id="FilterQuizAuditBaseMapper">
+		<id property="id" column="id" />
+		<result property="url" column="url" />
+		<result property="title" column="title" />
+		<result property="imgUrls" column="img_urls" />
+		<result property="originalData" column="original_data" />
+		<result property="filterData" column="filter_data" />
+		<result property="dataType" column="data_type" />
+		<result property="status" column="status" />
+		<result property="filterType" column="filter_type" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="ip" column="ip" />
+		<result property="createdAt" column="created_at" />
+		<collection property="auditLogs" ofType="com.sangame.datafilter.common.persistence.model.audit.FilterAuditLog"
+					column="id" select="selectLogsById" />
+	</resultMap>
+
+	<resultMap type="com.sangame.datafilter.common.persistence.model.audit.FilterAuditLog"
+			   id="FilterAuditLogBaseMapper">
+		<id  property="id" column="id" />
+		<result  property="auditId" column="audit_id" />
+		<result  property="reason" column="reason" />
+		<result  property="createdAt" column="created_at"/>
+		<result  property="creator" column="creator" />
+		<result  property="type" column="type" />
+		<result  property="operation" column="operation" />
+	</resultMap>
+
+	<resultMap id="DataCountStatisticResultMap" type="com.sangame.datafilter.common.persistence.model.pandect.DataCountStatistic">
+		<result  property="dateTime" column="dateTime" />
+		<result  property="dataStatus" column="status" />
+		<result  property="count" column="count" />
+	</resultMap>
+
+	<sql id="orderBySql">
+		<if test="status == 0">
+			ORDER BY c.created_at DESC
+		</if>
+		<if test = "status != 0">
+			ORDER BY updated_at DESC, c.id
+		</if>
+	</sql>
+
+	<sql id="limitSql">
+		limit #{pageStart},#{pageSize}
+	</sql>
+
+	<sql id="searcDataSql">
+		<where>
+			<if test="dataType != null">
+				AND data_type = #{dataType}
+			</if>
+			<if test="status == 1 or status == 2">
+				AND	(status = 1 or status = 2)
+			</if>
+			<if test="status != null and (status != 1 and status != 2)">
+				AND	status = #{status}
+			</if>
+			<if test="status == 0 and queryBeginTime != null">
+				AND c.created_at &gt; #{queryBeginTime}
+			</if>
+			<if test="status == 0 and queryEndTime != null">
+				AND c.created_at &lt; #{queryEndTime}
+			</if>
+			<if test="status != 0 and queryBeginTime != null">
+				AND a.created_at &gt; #{queryBeginTime}
+			</if>
+			<if test="status != 0 and queryEndTime != null">
+				AND a.created_at &lt; #{queryEndTime}
+			</if>
+			<if test="hasImage">
+				AND img_urls is not null and img_urls != ''
+			</if>
+			<if test="keyWordType == 0 and queryKeyword != null and queryKeyword != ''">
+				AND original_data like concat('%',#{queryKeyword},'%')
+			</if>
+			<if test="keyWordType == 1 and queryKeyword != null and queryKeyword != ''">
+				AND (ip like concat('%',#{queryKeyword},'%') or user_name like concat('%',#{queryKeyword},'%') or user_id like concat('%',#{queryKeyword},'%'))
+			</if>
+			<if test="keyWordType == 2 and queryKeyword != null and queryKeyword != ''">
+				AND (a.creator like concat('%',#{queryKeyword},'%') or a.reason like concat('%',#{queryKeyword},'%'))
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectLogsById" parameterType="int" resultMap="FilterAuditLogBaseMapper">
+		SELECT * FROM filter_audit_log WHERE audit_id = #{id}
+		ORDER BY created_at DESC
+	</select>
+
+	<select id="getDatasCountByStatus" resultType="int" parameterType="int">
+		SELECT count(1) FROM filter_quiz_audit
+		<where>
+			<if test="status != -1">
+				status = #{status}
+			</if>
+		</where>
+	</select>
+
+	<select id="getTodayDatasCountByStatus" resultType="int" parameterType="int">
+		SELECT count(1) FROM filter_quiz_audit
+		WHERE
+		to_days(created_at) = to_days(now())
+
+		<if test="status != -1">
+			AND status = #{status}
+		</if>
+	</select>
+
+	<select id="getDatasCountStatistic" resultMap="DataCountStatisticResultMap">
+		SELECT COUNT(id) as count, status , DATE_FORMAT(created_at,'%Y%m%d') as dateTime
+		FROM filter_quiz_audit a
+		WHERE
+		<if test="status != -1 and (status == 1 or status ==2)">
+			(status = 1 OR status = 2)
+		</if>
+		<if test="status != -1 and status != 1 and status != 2">
+			status = #{status}
+		</if>
+		AND DATE_SUB(CURDATE(), INTERVAL 10 DAY) &lt;= DATE(created_at)
+		GROUP BY TO_DAYS(created_at)
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.sangame.datafilter.common.persistence.model.audit.FilterQuizAudit">
+		insert into filter_quiz_audit
+		(id, url, title, original_data, filter_data, data_type,status, filter_type, user_id, user_name, ip, img_urls, created_at)
+		values
+		(#{id}, #{url},#{title},#{originalData},#{filterData},#{dataType},#{status},#{filterType},#{userId},#{userName},#{ip},#{imgUrls},#{createdAt})
+	</insert>
+
+	<update id="updateDataStatus" >
+		UPDATE filter_quiz_audit SET status = #{status}
+		WHERE id = #{id}
+	</update>
+
+	<update id="BatchUpdateDataStatus" >
+		UPDATE filter_quiz_audit SET status = #{status}
+		WHERE id in
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<select id="searchDatasCount" resultType="int">
+		SELECT COUNT(1)  FROM
+		(SELECT COUNT(1) FROM filter_quiz_audit c LEFT JOIN filter_audit_log a
+		ON c.id = a.audit_id
+		<include refid="searcDataSql"/>
+		group by c.id) b
+	</select>
+
+	<select id="searchDatas" parameterType="com.sangame.datafilter.common.persistence.model.audit.FilterQuizAudit" resultMap="FilterQuizAuditBaseMapper">
+		SELECT c.*,max(a.created_at) as updated_at FROM filter_quiz_audit c LEFT JOIN filter_audit_log a
+		ON c.id = a.audit_id AND a.type = 3
+		<include refid="searcDataSql"/>
+		GROUP BY c.id
+		<include refid="orderBySql"/>
+		<include refid="limitSql"/>
+	</select>
+
+	<update id="updateDtatStatusByUserIdWithStatus">
+		UPDATE filter_quiz_audit SET status = #{status}
+		WHERE user_id in
+		<foreach collection="userIds" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<select id="getIdsByUserId" resultType="Long">
+		SELECT id FROM filter_quiz_audit
+		WHERE user_id in
+		<foreach collection="userIds" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="getDataByUserId" resultMap="FilterQuizAuditBaseMapper">
+		SELECT c.*,max(a.created_at) as updated_at FROM filter_quiz_audit c LEFT JOIN filter_audit_log a
+		ON c.id = a.audit_id
+		WHERE user_id = #{userId}
+		GROUP BY c.id
+		ORDER BY updated_at desc, c.id asc
+	</select>
+
+</mapper>

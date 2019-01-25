@@ -1,0 +1,7 @@
+<!--添加方式：修改activemq.xml 在policyEntry节点同级修改或添加队列配置如下  -->
+<policyEntry queue=">" producerFlowControl="true" memoryLimit="50mb">
+    <deadLetterStrategy>
+        <individualDeadLetterStrategy queuePrefix="DLQ."
+                                      useQueueForQueueMessages="true" />
+    </deadLetterStrategy>
+</policyEntry>

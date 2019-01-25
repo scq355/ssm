@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<version>
+		<prop key="product.version">
+			1.0.0
+		</prop>
+		<prop key="build.number">
+			1
+		</prop>
+	</version>
+
+	<update>
+		<prop key="update.sql.path" notes="升级sql文件相对路径">
+			WEB-INF/update/update.sql
+		</prop>
+	</update>
+	
+	<security>
+		<prop key="open.filter.ip" notes="是否开启ip过滤，开启只允许白名单的ip登录">
+			false
+		</prop>
+		<prop key="access.filter.ip">
+			115.236.174.162,192.168.10.*
+		</prop>
+	</security>
+</config>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.sangame.datafilter.common.persistence.mapper.FilterPermissionMapper">
+
+<resultMap type="com.sangame.datafilter.common.persistence.model.FilterPermission" id="FilterPermissionBaseMapper">
+	<id property="id" column="id" />
+	<id property="permissionKey" column="permission_key" />
+	<id property="permissionName" column="permission_name" />
+	<id property="sortCode" column="sort_code" />
+	<id property="creator" column="creator" />
+	<id property="modifier" column="modifier" />
+	<id property="createdAt" column="created_at" />
+	<id property="updatedAt" column="updated_at" />
+</resultMap>  
+
+<insert id="insert">
+	<selectKey resultType="long" keyProperty="id">  
+   		select LAST_INSERT_ID()
+   	</selectKey>
+	insert into filter_permission
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="permissionKey != null">
+			permission_key,
+		</if>
+		<if test="permissionName != null">
+			permission_name,
+		</if>
+		<if test="sortCode != null">
+			sort_code,
+		</if>
+		<if test="creator != null">
+			creator,
+		</if>
+		<if test="modifier != null">
+			modifier,
+		</if>
+		<if test="createdAt != null">
+			created_at,
+		</if>
+		<if test="updatedAt != null">
+			updated_at,
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="permissionKey != null">
+			#{permissionKey},
+		</if>
+		<if test="permissionName != null">
+			#{permissionName},
+		</if>
+		<if test="sortCode != null">
+			#{sortCode},
+		</if>
+		<if test="creator != null">
+			#{creator},
+		</if>
+		<if test="modifier != null">
+			#{modifier},
+		</if>
+		<if test="createdAt != null">
+			#{createdAt},
+		</if>
+		<if test="updatedAt != null">
+			#{updatedAt},
+		</if>
+	</trim>
+</insert>
+
+<update id="update">
+	UPDATE filter_permission 
+	<set>
+			<if test="permissionKey != null">  
+	        	permission_key = #{permissionKey},
+	    	</if>
+			<if test="permissionName != null">  
+	        	permission_name = #{permissionName},
+	    	</if>
+			<if test="sortCode != null">  
+	        	sort_code = #{sortCode},
+	    	</if>
+			<if test="creator != null">  
+	        	creator = #{creator},
+	    	</if>
+			<if test="modifier != null">  
+	        	modifier = #{modifier},
+	    	</if>
+			<if test="createdAt != null">  
+	        	created_at = #{createdAt},
+	    	</if>
+			<if test="updatedAt != null">  
+	        	updated_at = #{updatedAt},
+	    	</if>
+	</set>   
+    WHERE id=#{id}
+</update>
+
+<delete id="delete">
+	delete from filter_permission where id=#{id}
+</delete>
+
+<select id="getById" resultMap="FilterPermissionBaseMapper">
+	SELECT * FROM filter_permission WHERE id=#{id} 
+</select>
+
+<select id="countByParm" resultType="integer">
+	select count(*) from filter_permission  where 1=1 
+			<if test="parm.permissionKey != null">
+		     	and permission_key = #{parm.permissionKey}
+		   	</if>
+			<if test="parm.permissionName != null">
+		     	and permission_name = #{parm.permissionName}
+		   	</if>
+			<if test="parm.sortCode != null">
+		     	and sort_code = #{parm.sortCode}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+</select>
+
+<select id="getListByParm" resultMap="FilterPermissionBaseMapper">
+	select * from filter_permission where 1=1 
+			<if test="parm.permissionKey != null">
+		     	and permission_key = #{parm.permissionKey}
+		   	</if>
+			<if test="parm.permissionName != null">
+		     	and permission_name = #{parm.permissionName}
+		   	</if>
+			<if test="parm.sortCode != null">
+		     	and sort_code = #{parm.sortCode}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+		<if test="page!=null and page.pageSize>0">
+			limit #{page.startRow},#{page.pageSize}
+		</if>
+		<if test="page!=null and page.orderBy != null">
+			order by #{page.orderBy}
+		</if>
+</select>
+
+
+<select id="getMapListByParm" parameterType="HashMap" resultType="HashMap">
+	select * from filter_permission where 1=1 
+</select>
+
+<select id="getPerListByIds" parameterType="Long" resultMap="FilterPermissionBaseMapper">
+	select permission_id from filter_permission where id in
+	<foreach item="item" collection="ids" open="(" separator="," close=")">  
+    	#{item}  
+  	</foreach>
+</select>
+
+</mapper>

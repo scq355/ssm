@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.sangame.datafilter.common.persistence.mapper.FilterSourceTimesetMapper">
+
+<resultMap type="com.sangame.datafilter.common.persistence.model.FilterSourceTimeset" id="FilterSourceTimesetBaseMapper">
+	<id property="id" column="id" />
+	<id property="sourceId" column="source_id" />
+	<id property="startHour" column="start_hour" />
+	<id property="endHour" column="end_hour" />
+	<id property="creator" column="creator" />
+	<id property="modifier" column="modifier" />
+	<id property="createdAt" column="created_at" />
+	<id property="updatedAt" column="updated_at" />
+</resultMap>  
+
+<insert id="insert">
+	<selectKey resultType="long" keyProperty="id">  
+   		select LAST_INSERT_ID()
+   	</selectKey>
+	insert into filter_source_timeset
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="sourceId != null">
+			source_id,
+		</if>
+		<if test="startHour != null">
+			start_hour,
+		</if>
+		<if test="endHour != null">
+			end_hour,
+		</if>
+		<if test="creator != null">
+			creator,
+		</if>
+		<if test="modifier != null">
+			modifier,
+		</if>
+		<if test="createdAt != null">
+			created_at,
+		</if>
+		<if test="updatedAt != null">
+			updated_at,
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="sourceId != null">
+			#{sourceId},
+		</if>
+		<if test="startHour != null">
+			#{startHour},
+		</if>
+		<if test="endHour != null">
+			#{endHour},
+		</if>
+		<if test="creator != null">
+			#{creator},
+		</if>
+		<if test="modifier != null">
+			#{modifier},
+		</if>
+		<if test="createdAt != null">
+			#{createdAt},
+		</if>
+		<if test="updatedAt != null">
+			#{updatedAt},
+		</if>
+	</trim>
+</insert>
+
+<update id="update">
+	UPDATE filter_source_timeset 
+	<set>
+			<if test="sourceId != null">  
+	        	source_id = #{sourceId},
+	    	</if>
+			<if test="startHour != null">  
+	        	start_hour = #{startHour},
+	    	</if>
+			<if test="endHour != null">  
+	        	end_hour = #{endHour},
+	    	</if>
+			<if test="creator != null">  
+	        	creator = #{creator},
+	    	</if>
+			<if test="modifier != null">  
+	        	modifier = #{modifier},
+	    	</if>
+			<if test="createdAt != null">  
+	        	created_at = #{createdAt},
+	    	</if>
+			<if test="updatedAt != null">  
+	        	updated_at = #{updatedAt},
+	    	</if>
+	</set>   
+    WHERE id=#{id}
+</update>
+
+<delete id="delete">
+	delete from filter_source_timeset where id=#{id}
+</delete>
+
+<select id="getById" resultMap="FilterSourceTimesetBaseMapper">
+	SELECT * FROM filter_source_timeset WHERE id=#{id} 
+</select>
+
+<select id="countByParm" resultType="integer">
+	select count(*) from filter_source_timeset  where 1=1 
+			<if test="parm.sourceId != null">
+		     	and source_id = #{parm.sourceId}
+		   	</if>
+			<if test="parm.startHour != null">
+		     	and start_hour = #{parm.startHour}
+		   	</if>
+			<if test="parm.endHour != null">
+		     	and end_hour = #{parm.endHour}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+</select>
+
+<select id="getListByParm" resultMap="FilterSourceTimesetBaseMapper">
+	select * from filter_source_timeset where 1=1 
+			<if test="parm.sourceId != null">
+		     	and source_id = #{parm.sourceId}
+		   	</if>
+			<if test="parm.startHour != null">
+		     	and start_hour = #{parm.startHour}
+		   	</if>
+			<if test="parm.endHour != null">
+		     	and end_hour = #{parm.endHour}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+		<if test="page!=null and page.pageSize>0">
+			limit #{page.startRow},#{page.pageSize}
+		</if>
+		<if test="page!=null and page.orderBy != null">
+			order by #{page.orderBy}
+		</if>
+</select>
+
+
+<select id="getMapListByParm" parameterType="HashMap" resultType="HashMap">
+	select * from filter_source_timeset where 1=1 
+</select>
+
+<delete id="deleteBySourceId">
+	delete from filter_source_timeset where source_id = #{id}
+</delete>
+
+</mapper>

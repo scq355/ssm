@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="datafilter-console:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="datafilter-console-1.0.0.1.war">
+      <element id="artifact" artifact-name="datafilter-console:war exploded" />
+    </root>
+  </artifact>
+</component>

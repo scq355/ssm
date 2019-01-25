@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<substitutionProperty name="log.base" value="\/logs\/apps\/datafilter/datafilter-console" />
+
+	<jmxConfigurator />
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<encoding>UTF-8</encoding>
+		<file>${log.base}/debug.log</file>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.base}/debug.%d{yyyy-MM-dd_HH}.log.zip</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{10} - %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<encoding>UTF-8</encoding>
+		<file>${log.base}/info.log</file>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.base}/info.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{10} - %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+		</filter>
+		<encoding>UTF-8</encoding>
+		<file>${log.base}/warn.log</file>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.base}/warn.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{10} - %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<encoding>UTF-8</encoding>
+		<file>${log.base}/error.log</file>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.base}/error.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+			<maxHistory>14</maxHistory>
+		</rollingPolicy>
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{10} - %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<appender name="controller" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<encoding>UTF-8</encoding>
+		<file>${log.base}/controller.log</file>
+		
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.base}/controller.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date [%thread] %-5level %logger{10} - %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<!-- 需要记录日志的包 -->
+	<logger name="net.sf" level="WARN" />
+	<logger name="org.apache" level="WARN" />
+	<logger name="org.quartz" level="WARN" />
+	<logger name="com.mchange" level="WARN" />
+	<logger name="com.opensymphony" level="WARN" />
+	<logger name="org.springframework" level="WARN" />
+	<logger name="freemarker" level="ERROR" />
+	<logger name="com.googlecode" level="ERROR" />
+	<logger name="com.sangame.datafilter" level="DEBUG" />
+	<root>
+		<level value="debug" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="debug" />
+		<appender-ref ref="info" />
+		<appender-ref ref="warn" />
+		<appender-ref ref="error" />
+	</root>
+
+</configuration>
+
+

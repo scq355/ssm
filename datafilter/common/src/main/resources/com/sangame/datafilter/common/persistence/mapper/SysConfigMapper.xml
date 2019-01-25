@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.sangame.datafilter.common.persistence.mapper.SysConfigMapper">
+
+<resultMap type="com.sangame.datafilter.common.persistence.model.SysConfig" id="SysConfigBaseMapper">
+	<id property="id" column="id" />
+	<id property="configKey" column="config_key" />
+	<id property="showName" column="show_name" />
+	<id property="configValue" column="config_value" />
+	<id property="remark" column="remark" />
+	<id property="creator" column="creator" />
+	<id property="modifier" column="modifier" />
+	<id property="createdAt" column="created_at" />
+	<id property="updatedAt" column="updated_at" />
+</resultMap>  
+
+<insert id="insert">
+	<selectKey resultType="long" keyProperty="id">  
+   		select LAST_INSERT_ID()
+   	</selectKey>
+	insert into sys_config
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="configKey != null">
+			config_key,
+		</if>
+		<if test="showName != null">
+			show_name,
+		</if>
+		<if test="configValue != null">
+			config_value,
+		</if>
+		<if test="remark != null">
+			remark,
+		</if>
+		<if test="creator != null">
+			creator,
+		</if>
+		<if test="modifier != null">
+			modifier,
+		</if>
+		<if test="createdAt != null">
+			created_at,
+		</if>
+		<if test="updatedAt != null">
+			updated_at,
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="configKey != null">
+			#{configKey},
+		</if>
+		<if test="showName != null">
+			#{showName},
+		</if>
+		<if test="configValue != null">
+			#{configValue},
+		</if>
+		<if test="remark != null">
+			#{remark},
+		</if>
+		<if test="creator != null">
+			#{creator},
+		</if>
+		<if test="modifier != null">
+			#{modifier},
+		</if>
+		<if test="createdAt != null">
+			#{createdAt},
+		</if>
+		<if test="updatedAt != null">
+			#{updatedAt},
+		</if>
+	</trim>
+</insert>
+
+<update id="update">
+	UPDATE sys_config 
+	<set>
+			<if test="configKey != null">  
+	        	config_key = #{configKey},
+	    	</if>
+			<if test="showName != null">  
+	        	show_name = #{showName},
+	    	</if>
+			<if test="configValue != null">  
+	        	config_value = #{configValue},
+	    	</if>
+			<if test="remark != null">  
+	        	remark = #{remark},
+	    	</if>
+			<if test="creator != null">  
+	        	creator = #{creator},
+	    	</if>
+			<if test="modifier != null">  
+	        	modifier = #{modifier},
+	    	</if>
+			<if test="createdAt != null">  
+	        	created_at = #{createdAt},
+	    	</if>
+			<if test="updatedAt != null">  
+	        	updated_at = #{updatedAt},
+	    	</if>
+	</set>   
+    WHERE id=#{id}
+</update>
+
+<delete id="delete">
+	delete from sys_config where id=#{id}
+</delete>
+
+<!-- 批量删除屏蔽规则 -->
+<delete id="deleteBatchRules" parameterType="java.util.List">
+	delete from sys_config where id in 
+	<foreach collection = "list" index="index" item="item" open="(" close=")" separator=",">
+		#{item}
+	</foreach>
+</delete>
+
+<select id="getById" resultMap="SysConfigBaseMapper">
+	SELECT * FROM sys_config WHERE id=#{id} 
+</select>
+
+<select id="countByParm" resultType="integer">
+	select count(*) from sys_config  where 1=1 
+			<if test="parm.configKey != null">
+		     	and config_key = #{parm.configKey}
+		   	</if>
+		   	<if test="parm.configKeyLike != null">
+		     	and config_key LIKE concat('%',#{parm.configKeyLike},'%')
+		   	</if>
+			<if test="parm.showName != null">
+		     	and show_name = #{parm.showName}
+		   	</if>
+			<if test="parm.configValue != null">
+		     	and config_value = #{parm.configValue}
+		   	</if>
+		   	
+			<if test="parm.remark != null">
+		     	and remark = #{parm.remark}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+</select>
+
+<select id="getListByParm" resultMap="SysConfigBaseMapper">
+	select * from sys_config where 1=1 
+			<if test="parm.configKey != null">
+		     	and config_key = #{parm.configKey}
+		   	</if>
+		   	<if test="parm.configKeyLike != null">
+		     	and config_key LIKE concat('%',#{parm.configKeyLike},'%')
+		   	</if>
+			<if test="parm.showName != null">
+		     	and show_name = #{parm.showName}
+		   	</if>
+			<if test="parm.configValue != null">
+		     	and config_value = #{parm.configValue}
+		   	</if>
+			<if test="parm.remark != null">
+		     	and remark = #{parm.remark}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+		<if test="page!=null and page.pageSize>0">
+			limit #{page.startRow},#{page.pageSize}
+		</if>
+		<if test="page!=null and page.orderBy != null">
+			order by #{page.orderBy}
+		</if>
+</select>
+
+
+<select id="getMapListByParm" parameterType="HashMap" resultType="HashMap">
+	select * from sys_config where 1=1 
+</select>
+
+<select id="getAll" parameterType="java.lang.String" resultMap="SysConfigBaseMapper">
+	SELECT * FROM sys_config WHERE 1=1
+	<if test="configKey != null">
+		and config_key = #{configKey}
+	</if>
+</select>
+
+</mapper>

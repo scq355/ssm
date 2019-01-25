@@ -1,0 +1,50 @@
+	<profile>
+      <id>datafilter</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>sangame-repo</id>
+          <name>Sangame Repository</name>
+          <url>http://maven.sangame.com</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <properties>
+
+        <profiles.active>datafilter</profiles.active>
+        <product.version>1.0.0</product.version>
+        <build.version>1</build.version>
+
+        <db.mysql.datafilter.address>127.0.0.1</db.mysql.datafilter.address>
+        <db.mysql.datafilter.port>3306</db.mysql.datafilter.port>
+        <db.mysql.datafilter.database>sgcms_datafilter</db.mysql.datafilter.database>
+        <db.mysql.datafilter.username>root</db.mysql.datafilter.username>
+        <db.mysql.datafilter.password>root</db.mysql.datafilter.password>
+
+
+        <ldap.uri>ldap\:\/\/192.168.20.106\:389</ldap.uri>
+        <ldap.dn>dc=sangame,dc=com</ldap.dn>
+        <ldap.user.dn>cn=manager,dc=sangame,dc=com</ldap.user.dn>
+        <ldap.password>123456</ldap.password>
+
+        <domain.resource>res.cngoldres.com</domain.resource>
+
+        <datafilter.redis.host>127.0.0.1</datafilter.redis.host>
+        <datafilter.redis.port>6379</datafilter.redis.port>
+        <datafilter.redis.timeout>2000</datafilter.redis.timeout>
+        <datafilter.redis.password>123456</datafilter.redis.password>
+
+          <datafilter.jms.brokerURL>tcp\://127.0.0.1\:61616</datafilter.jms.brokerURL>
+
+        <datafilter.log.level>debug</datafilter.log.level>
+        <datafilter.log.base>\/logs\/apps\/datafilter</datafilter.log.base>
+
+      </properties>
+    </profile>

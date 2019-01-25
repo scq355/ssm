@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.sangame.datafilter.common.persistence.mapper.FilterAdminMapper">
+
+<resultMap type="com.sangame.datafilter.common.persistence.model.FilterAdmin" id="FilterAdminBaseMapper">
+	<id property="id" column="id" />
+	<id property="adminName" column="admin_name" />
+	<id property="password" column="password" />
+	<id property="roleId" column="role_id" />
+	<id property="lastLoginIp" column="last_login_ip" />
+	<id property="lastLoginTime" column="last_login_time" />
+	<id property="failNumber" column="fail_number" />
+	<id property="remark" column="remark" />
+	<id property="deleteFlag" column="delete_flag" />
+	<id property="creator" column="creator" />
+	<id property="modifier" column="modifier" />
+	<id property="createdAt" column="created_at" />
+	<id property="updatedAt" column="updated_at" />
+</resultMap>  
+
+<insert id="insert">
+	<selectKey resultType="long" keyProperty="id">  
+   		select LAST_INSERT_ID()
+   	</selectKey>
+	insert into filter_admin
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="adminName != null">
+			admin_name,
+		</if>
+		<if test="password != null">
+			password,
+		</if>
+		<if test="roleId != null">
+			role_id,
+		</if>
+		<if test="lastLoginIp != null">
+			last_login_ip,
+		</if>
+		<if test="lastLoginTime != null">
+			last_login_time,
+		</if>
+		<if test="failNumber != null">
+			fail_number,
+		</if>
+		<if test="remark != null">
+			remark,
+		</if>
+		<if test="deleteFlag != null">
+			delete_flag,
+		</if>
+		<if test="creator != null">
+			creator,
+		</if>
+		<if test="modifier != null">
+			modifier,
+		</if>
+		<if test="createdAt != null">
+			created_at,
+		</if>
+		<if test="updatedAt != null">
+			updated_at,
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="adminName != null">
+			#{adminName},
+		</if>
+		<if test="password != null">
+			#{password},
+		</if>
+		<if test="roleId != null">
+			#{roleId},
+		</if>
+		<if test="lastLoginIp != null">
+			#{lastLoginIp},
+		</if>
+		<if test="lastLoginTime != null">
+			#{lastLoginTime},
+		</if>
+		<if test="failNumber != null">
+			#{failNumber},
+		</if>
+		<if test="remark != null">
+			#{remark},
+		</if>
+		<if test="deleteFlag != null">
+			#{deleteFlag},
+		</if>
+		<if test="creator != null">
+			#{creator},
+		</if>
+		<if test="modifier != null">
+			#{modifier},
+		</if>
+		<if test="createdAt != null">
+			#{createdAt},
+		</if>
+		<if test="updatedAt != null">
+			#{updatedAt},
+		</if>
+	</trim>
+</insert>
+
+<update id="update">
+	UPDATE filter_admin 
+	<set>
+			<if test="adminName != null">  
+	        	admin_name = #{adminName},
+	    	</if>
+			<if test="password != null">  
+	        	password = #{password},
+	    	</if>
+			<if test="roleId != null">  
+	        	role_id = #{roleId},
+	    	</if>
+			<if test="lastLoginIp != null">  
+	        	last_login_ip = #{lastLoginIp},
+	    	</if>
+			<if test="lastLoginTime != null">  
+	        	last_login_time = #{lastLoginTime},
+	    	</if>
+			<if test="failNumber != null">  
+	        	fail_number = #{failNumber},
+	    	</if>
+			<if test="remark != null">  
+	        	remark = #{remark},
+	    	</if>
+			<if test="deleteFlag != null">  
+	        	delete_flag = #{deleteFlag},
+	    	</if>
+			<if test="creator != null">  
+	        	creator = #{creator},
+	    	</if>
+			<if test="modifier != null">  
+	        	modifier = #{modifier},
+	    	</if>
+			<if test="createdAt != null">  
+	        	created_at = #{createdAt},
+	    	</if>
+			<if test="updatedAt != null">  
+	        	updated_at = #{updatedAt},
+	    	</if>
+	</set>   
+    WHERE id=#{id}
+</update>
+
+<delete id="delete">
+	delete from filter_admin where id=#{id}
+</delete>
+
+<select id="getById" resultMap="FilterAdminBaseMapper">
+	SELECT * FROM filter_admin WHERE id=#{id} 
+</select>
+
+<select id="countByParm" resultType="integer">
+	select count(*) from filter_admin  where 1=1 
+			<if test="parm.adminName != null">
+		     	and admin_name = #{parm.adminName}
+		   	</if>
+			<if test="parm.password != null">
+		     	and password = #{parm.password}
+		   	</if>
+			<if test="parm.roleId != null">
+		     	and role_id = #{parm.roleId}
+		   	</if>
+			<if test="parm.lastLoginIp != null">
+		     	and last_login_ip = #{parm.lastLoginIp}
+		   	</if>
+			<if test="parm.lastLoginTime != null">
+		     	and last_login_time = #{parm.lastLoginTime}
+		   	</if>
+			<if test="parm.failNumber != null">
+		     	and fail_number = #{parm.failNumber}
+		   	</if>
+			<if test="parm.remark != null">
+		     	and remark = #{parm.remark}
+		   	</if>
+			<if test="parm.deleteFlag != null">
+		     	and delete_flag = #{parm.deleteFlag}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+</select>
+
+<select id="getListByParm" resultMap="FilterAdminBaseMapper">
+	select * from filter_admin where 1=1 
+			<if test="parm.adminName != null">
+		     	and admin_name = #{parm.adminName}
+		   	</if>
+			<if test="parm.password != null">
+		     	and password = #{parm.password}
+		   	</if>
+			<if test="parm.roleId != null">
+		     	and role_id = #{parm.roleId}
+		   	</if>
+			<if test="parm.lastLoginIp != null">
+		     	and last_login_ip = #{parm.lastLoginIp}
+		   	</if>
+			<if test="parm.lastLoginTime != null">
+		     	and last_login_time = #{parm.lastLoginTime}
+		   	</if>
+			<if test="parm.failNumber != null">
+		     	and fail_number = #{parm.failNumber}
+		   	</if>
+			<if test="parm.remark != null">
+		     	and remark = #{parm.remark}
+		   	</if>
+			<if test="parm.deleteFlag != null">
+		     	and delete_flag = #{parm.deleteFlag}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+		<if test="page!=null and page.pageSize>0">
+			limit #{page.startRow},#{page.pageSize}
+		</if>
+		<if test="page!=null and page.orderBy != null">
+			order by #{page.orderBy}
+		</if>
+</select>
+
+
+<select id="getMapListByParm" parameterType="HashMap" resultType="HashMap">
+	select * from filter_admin where 1=1 
+</select>
+
+
+</mapper>

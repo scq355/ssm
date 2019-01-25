@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!--这个是 commentRequest(其他项目发送数据到此队列) -->
+    <bean id="investmentRequestQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>InvestmentRequestQueue</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- comment 死信队列配置 -->
+    <bean id="DLQInvestmentRequestQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>DLQ.InvestmentRequestQueue</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- 消息监听器 -->
+    <bean id="investmentRequestConsumerListener" class="com.sangame.datafilter.activeMq.investment.InvestmentRequestConsumer"/>
+    <bean id="investmentRequestConsumerDLQListener" class="com.sangame.datafilter.activeMq.investment.InvestmentRequestConsumerDLQ"/>
+
+    <!-- 消息监听容器 -->
+    <bean id="investmentJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="investmentRequestQueueDestination" />
+        <property name="messageListener" ref="investmentRequestConsumerListener" />
+        <!--这里注意:如果不开启事务，消息在异常的情况下是不会重试的-->
+        <property name="sessionTransacted" value="true"/>
+        <property name="concurrentConsumers" value="1"/>
+    </bean>
+
+
+
+    <bean id="investmentJmsDLQContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="DLQInvestmentRequestQueueDestination" />
+        <property name="messageListener" ref="investmentRequestConsumerDLQListener" />
+        <!--这里注意:如果不开启事务，消息在异常的情况下是不会重试的-->
+        <property name="sessionTransacted" value="true"/>
+        <property name="concurrentConsumers" value="1"/>
+    </bean>
+
+    <!--这个是队列目的地，点对点的-->
+    <bean id="investmentResponseQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>InvestmentResponseQueue</value>
+        </constructor-arg>
+    </bean>
+
+</beans>

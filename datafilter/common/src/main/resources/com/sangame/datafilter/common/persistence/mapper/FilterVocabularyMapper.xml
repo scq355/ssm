@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.sangame.datafilter.common.persistence.mapper.FilterVocabularyMapper">
+
+<resultMap type="com.sangame.datafilter.common.persistence.model.FilterVocabulary" id="FilterVocabularyBaseMapper">
+	<id property="id" column="id" />
+	<id property="content" column="content" />
+	<id property="type" column="type" />
+	<id property="deleteFlag" column="delete_flag" />
+	<id property="creator" column="creator" />
+	<id property="modifier" column="modifier" />
+	<id property="createdAt" column="created_at" />
+	<id property="updatedAt" column="updated_at" />
+</resultMap>  
+
+<insert id="insert">
+	<selectKey resultType="long" keyProperty="id">  
+   		select LAST_INSERT_ID()
+   	</selectKey>
+	insert into filter_vocabulary
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="content != null">
+			content,
+		</if>
+		<if test="type != null">
+			type,
+		</if>
+		<if test="deleteFlag != null">
+			delete_flag,
+		</if>
+		<if test="creator != null">
+			creator,
+		</if>
+		<if test="modifier != null">
+			modifier,
+		</if>
+		<if test="createdAt != null">
+			created_at,
+		</if>
+		<if test="updatedAt != null">
+			updated_at,
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="content != null">
+			#{content},
+		</if>
+		<if test="type != null">
+			#{type},
+		</if>
+		<if test="deleteFlag != null">
+			#{deleteFlag},
+		</if>
+		<if test="creator != null">
+			#{creator},
+		</if>
+		<if test="modifier != null">
+			#{modifier},
+		</if>
+		<if test="createdAt != null">
+			#{createdAt},
+		</if>
+		<if test="updatedAt != null">
+			#{updatedAt},
+		</if>
+	</trim>
+</insert>
+
+<!-- 批量新增 -->
+<insert id="batchInsert" parameterType="java.util.List" >
+	INSERT INTO filter_vocabulary (content, type, delete_flag, creator, modifier, created_at, updated_at)
+	VALUES
+	<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.content}, #{item.type}, #{item.deleteFlag}, #{item.creator}, #{item.modifier}, #{item.createdAt}, #{item.updatedAt})
+	</foreach>
+</insert>
+
+<update id="update">
+	UPDATE filter_vocabulary 
+	<set>
+			<if test="content != null">  
+	        	content = #{content},
+	    	</if>
+			<if test="type != null">  
+	        	type = #{type},
+	    	</if>
+			<if test="deleteFlag != null">  
+	        	delete_flag = #{deleteFlag},
+	    	</if>
+			<if test="creator != null">  
+	        	creator = #{creator},
+	    	</if>
+			<if test="modifier != null">  
+	        	modifier = #{modifier},
+	    	</if>
+			<if test="createdAt != null">  
+	        	created_at = #{createdAt},
+	    	</if>
+			<if test="updatedAt != null">  
+	        	updated_at = #{updatedAt},
+	    	</if>
+	</set>   
+    WHERE id=#{id}
+</update>
+<update id="batchUpdate">
+	UPDATE filter_vocabulary 
+	<set>
+		<if test="type != null">  
+        	type = #{type},
+    	</if>
+	</set>   
+    WHERE id in
+    <foreach item="item" collection="ids" open="(" separator="," close=")">  
+    	#{item}  
+  	</foreach>
+</update>
+
+<delete id="delete">
+	delete from filter_vocabulary where id = #{id}
+</delete>
+
+<delete id="batchDelete" parameterType="java.lang.String">  
+    delete from filter_vocabulary where id in   
+    <foreach item="item" collection="array" open="(" separator="," close=")">  
+    	#{item}  
+  	</foreach>  
+</delete>
+
+<select id="getById" resultMap="FilterVocabularyBaseMapper">
+	SELECT * FROM filter_vocabulary WHERE id=#{id} 
+</select>
+
+<select id="countByParm" resultType="integer">
+	select count(*) from filter_vocabulary  where 1=1 
+			<if test="parm.content != null">
+		     	and content = #{parm.content}
+		   	</if>
+		   	<if test="parm.contentLike != null">
+		     	and content LIKE concat('%',#{parm.contentLike},'%')
+		   	</if>
+			<if test="parm.type != null">
+		     	and type = #{parm.type}
+		   	</if>
+			<if test="parm.deleteFlag != null">
+		     	and delete_flag = #{parm.deleteFlag}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+</select>
+
+<select id="getListByParm" resultMap="FilterVocabularyBaseMapper">
+	select * from filter_vocabulary where 1=1 
+			<if test="parm.content != null">
+		     	and content = #{parm.content}
+		   	</if>
+		   	<if test="parm.contentLike != null">
+		     	and content LIKE concat('%',#{parm.contentLike},'%')
+		   	</if>
+			<if test="parm.type != null">
+		     	and type = #{parm.type}
+		   	</if>
+			<if test="parm.deleteFlag != null">
+		     	and delete_flag = #{parm.deleteFlag}
+		   	</if>
+			<if test="parm.creator != null">
+		     	and creator = #{parm.creator}
+		   	</if>
+			<if test="parm.modifier != null">
+		     	and modifier = #{parm.modifier}
+		   	</if>
+			<if test="parm.createdAt != null">
+		     	and created_at = #{parm.createdAt}
+		   	</if>
+			<if test="parm.updatedAt != null">
+		     	and updated_at = #{parm.updatedAt}
+		   	</if>
+		<if test="page!=null and page.orderBy != null">
+			order by ${page.orderBy}
+		</if>
+		<if test="page!=null and page.pageSize>0">
+			limit #{page.startRow},#{page.pageSize}
+		</if>
+		
+</select>
+
+
+<select id="getMapListByParm" parameterType="HashMap" resultType="HashMap">
+	select * from filter_vocabulary where 1=1 
+</select>
+
+
+</mapper>

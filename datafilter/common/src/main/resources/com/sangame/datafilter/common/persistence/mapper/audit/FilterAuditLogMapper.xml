@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.sangame.datafilter.common.persistence.mapper.audit.FilterAuditLogMapper">
+
+<resultMap type="com.sangame.datafilter.common.persistence.model.audit.FilterAuditLog" id="FilterAuditLogBaseMapper">
+	<id property="id" column="id" />
+	<result property="creator" column="creator" />
+	<result property="operation" column="operation" />
+	<result property="reason" column="reason" />
+	<result property="type" column="type" />
+	<result property="auditId" column="audit_id" />
+</resultMap>
+
+	<sql id="columns">
+		id,created_at,creator,operation,reason,type,audit_id
+	</sql>
+
+	<select id="getTodayPassManualCount" resultType="int">
+		SELECT count(1) FROM
+			(SELECT MAX(created_at) FROM filter_audit_log
+				WHERE creator = <![CDATA['系统' ]]> AND to_days(created_at) = to_days(now())
+				GROUP BY audit_id) as a
+	</select>
+
+	<select id="getTodayPassSysCount" resultType="int">
+		SELECT count(1) FROM
+		(SELECT MAX(created_at) FROM filter_audit_log
+		WHERE creator != <![CDATA['系统' ]]> AND to_days(created_at) = to_days(now())
+		GROUP BY audit_id) as a
+	</select>
+
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.sangame.datafilter.common.persistence.model.audit.FilterAuditLog">
+		INSERT INTO filter_audit_log ( <include refid="columns"/> )
+		VALUES (
+		#{id},
+		#{createdAt},
+		#{creator},
+		#{operation},
+		#{reason},
+		#{type},
+		#{auditId}
+		)
+	</insert>
+
+	<insert id="batchInsert" parameterType="com.sangame.datafilter.common.persistence.model.audit.FilterAuditLog">
+		INSERT INTO filter_audit_log ( <include refid="columns"/> )
+		VALUES
+		<foreach collection="auditLogs" index="index" item="item" separator=",">
+			(
+			#{item.id},
+			#{item.createdAt},
+			#{item.creator},
+			#{item.operation},
+			#{item.reason},
+			#{item.type},
+			#{item.auditId}
+			)
+		</foreach>
+	</insert>
+
+</mapper>

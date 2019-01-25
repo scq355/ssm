@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+				 http://www.springframework.org/schema/task  http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+	<context:component-scan base-package="com.sangame.datafilter" />
+	<aop:aspectj-autoproxy proxy-target-class="false" />
+
+	<task:annotation-driven />
+
+	<import resource="springmvc-servlet.xml"/>
+	<import resource="classpath*:config/mybatis-config.xml"/>
+
+	<import resource="classpath*:config/redis.xml" />
+	<!--<bean id="contextSource"  class="org.springframework.ldap.core.support.LdapContextSource">
+       	<property name="url" value="${ldap.uri}"/>
+        <property name="base" value="${ldap.dn}"/>
+        <property name="userDn" value="${ldap.user.dn}"/>
+        <property name="password" value="${ldap.password}"/>
+    </bean>
+  
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+        <constructor-arg ref="contextSource" />
+    </bean>-->
+    
+	<bean id="commonConfig" class="com.sangame.datafilter.config.CommonConfig" >
+		<constructor-arg index="0" value="config.xml" />
+	</bean>
+
+	<bean id="freemarkerConfiguration" class="freemarker.template.Configuration"/>
+	<bean id="redisHelper" class="com.sangame.datafilter.redis.RedisHelper"/>
+    <import resource="classpath*:config/shiro-config.xml"/>
+	<import resource="jms.xml"/>
+</beans>

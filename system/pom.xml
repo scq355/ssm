@@ -8,7 +8,7 @@
   <name>system Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <properties>
-    <spring.version>4.3.8.RELEASE</spring.version>
+    <spring.version>4.3.14.RELEASE</spring.version>
   </properties>
 
   <dependencies>
@@ -148,7 +148,7 @@
     <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
-      <version>2.2.2</version>
+      <version>2.3.2</version>
     </dependency>
     <!--<dependency>-->
       <!--<groupId>org.quartz-scheduler</groupId>-->

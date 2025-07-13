@@ -28,8 +28,8 @@
 	<junit.version>4.12</junit.version>
 	<javax.servlet-api.version>4.0.0</javax.servlet-api.version>
 	<mybatis.version>3.4.5</mybatis.version>
-	<jackson-databind.version>2.9.3</jackson-databind.version>
-	<jackson-core.version>2.9.3</jackson-core.version>
+	<jackson-databind.version>2.15.0</jackson-databind.version>
+	<jackson-core.version>2.15.0</jackson-core.version>
 	<quartz.version>2.3.0</quartz.version>
 	<guava.version>23.5-jre</guava.version>
 	<commons.configuration.version>1.10</commons.configuration.version>
@@ -142,12 +142,12 @@
 	<dependency>
 	  <groupId>org.apache.commons</groupId>
 	  <artifactId>commons-lang3</artifactId>
-	  <version>3.7</version>
+	  <version>3.18.0</version>
 	</dependency>
 	<dependency>
 	  <groupId>commons-fileupload</groupId>
 	  <artifactId>commons-fileupload</artifactId>
-	  <version>1.3.3</version>
+	  <version>1.6.0</version>
 	</dependency>
 	<dependency>
 	  <groupId>commons-io</groupId>
